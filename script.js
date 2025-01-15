@@ -54,3 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tocContainer.appendChild(ul);
 });
+// Función para regresar al inicio de la página
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Desplazamiento suave
+    });
+}
