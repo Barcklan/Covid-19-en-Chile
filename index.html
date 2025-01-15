@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/a.jpg" type="image/x-icon">
     <title>COVID-19 en Chile (Análisis)</title>
-    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body style="background-color: black;">
     
@@ -375,7 +376,7 @@
                         <h3>3.2 Impacto del COVID-19 en el género y grupo etario de los pacientes</h3>
                             <p> <b>a) Impacto en el género</b></p>
                             <figure class="image-container">
-                                <img src="img/T3.png" alt="Tendencia de las defunciones por COVID-19" class="centered-image">
+                                <img src="img/T3.png" alt="Tendencia de las defunciones por COVID-19" class="small-img">
                                 <figcaption>Figura 3: Porcentaje % de muertes por COVID-19 entre hombres y mujeres.</figcaption>
                             </figure>
                             <figure class="table-container"></figure>
@@ -1190,16 +1191,25 @@
                         }
                     </style>
                     
-                    <img src="img/Powerbi.png" alt="Imagen centrada" class="imagen" />
-                <p>Si deseas interactuar con el dashboard elaborado en Power Bi, puedes descargar el archivo <a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/Defunciones%20COVID-19.pbix"> "Defunciones COVID-19.pbix" </a>  y abrirlo desde el programa Power BI. </p>
+                    <img src="img/Powerbi.png" alt="Imagen centrada" class="small-img" />
+                <p>La imagen adjunta es sólo una muestra del tablero realizado con el programa Power BI. Si deseas interactuar con el dashboard, puedes descargar el archivo <a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/Defunciones%20COVID-19.pbix"> "Defunciones COVID-19.pbix" </a>  y abrirlo desde el programa Power BI. </p>
         </section>
 
         <!-- Sección de Animaciones -->
         <section id="animaciones" class="section">
-            <h2>Animaciones</h2>
-            <img src="tu_gif.gif" alt="Animación" class="responsive-img">
+            <div class="container"></div>
+                <h2>Animaciones</h2>
+                    <h1>Gráfico de Muertes Acumulativas por COVID-19 en Chile</h1>
+                    <iframe src="animacion_muertes_covid_chile.html"></iframe>
+            </div>  
+          <!--  <img src="tu_gif.gif" alt="Animación" class="responsive-img"> -->
+            <p>En la animación adjunta podemos ver <b>"Gráfico de Muertes Acumulativas por COVID-19 en Chile"</b>, y se observa el incremento de las muertes de pacientes por COVID-19 a lo largo de los años y, destaca en primer
+                lugar la región Metropolitana (la capital del país) superando con creces a las demás regiones por todo el período. En segundo lugar, la Región de Valparaíso y luego 
+                en tercer lugar, la Región Del Bíobío hace lo suyo desde el año 2021 en adelante conservando este puesto hasta septiembre de 2024. Además podemos notar que
+                los mayores casos, se concentran en las regiones correspondiente a la Zona Centro acumulando el 75.4% de las defunciones totales del país. Las regiones
+                correspondientes a las  zonas extremas (Norte y Sur) son las menos afectadas respecto a las de la Zona Central.
+            </p>
         </section>
-        
 
        
         <!-- Sección de Contacto -->
@@ -1209,8 +1219,28 @@
         </section>
     </main>
 
-    <footer>
-        <p>© 2025 Barcklan - Todos los derechos reservados.</p>
+    <footer class="site-footer">
+        <div class="social-media-buttons">
+            <a href="https://barcklan.wordpress.com/" target="_blank" class="social-button facebook">Barcklan-Inforadd</a>
+            <a href="https://barcklan.github.io/Barcklan/" target="_blank" class="social-button twitter">Portafolio</a>
+            <a href="https://instagram.com/barcklan/" target="_blank" class="social-button instagram">Instagram</a>
+            <a href="https://linkedin.com/in/claudio-andres-diaz-vargas" target="_blank" class="social-button linkedin">LinkedIn</a>
+        </div>
+        <button class="back-to-top" onclick="scrollToTop()">Ir al inicio</button>
+        <p>&copy; 2025 Barcklan. Todos los derechos reservados.</p>
+        <p xmlns:cc="http://creativecommons.org/ns#">
+            This work is licensed under 
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" 
+               target="_blank" rel="license noopener noreferrer" style="text-decoration: none; color: inherit;">
+              CC BY-NC-SA 4.0
+            </a>
+          </p>
+          <div class="cc-icons">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC Icon">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY Icon">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="NC Icon">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA Icon">
+          </div>
     </footer>
 
     <script src="script.js"></script>
