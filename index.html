@@ -2,12 +2,22 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/a.jpg" type="image/x-icon">
     <title>COVID-19 en Chile (Análisis)</title>
-    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        /* Estilos para asegurar que el gráfico sea responsivo */
+        #plotly-div {
+            width: 100%;
+            height: auto;
+            max-width: 600px; /* Ajusta según sea necesario */
+            margin: 0 auto; /* Centrar el contenedor */
+        }
+    </style>
 </head>
 <body style="background-color: black;">
     
@@ -232,7 +242,7 @@
                                 <img src="img/T2.png" alt="Muertes acumuladas por COVID en cada región" class="centered-image">
                                 <figcaption>Figura 2: Muertes acumuladas por COVID-19 a nivel de regiones.</figcaption>
                             </figure>
-                            <figure class="table-container"></figure>
+                            <figure class="table-container">
                                 <table class="centered-table">
                                     <tr>
                                         <th>Región</th>
@@ -321,7 +331,7 @@
                                     </tr>
                                 </table>
                                 <figcaption>Cuadro 3: Muertes acumuladas por COVID-19 a nivel de regiones.</figcaption>
-                                </figure>
+                            </figure>
         
                             <p> En la <b>Figura 2</b> y el <b>Cuadro 3</b> muestran el porcentaje (%) acumulado de muertes
                             por COVID-19 a nivel regional en Chile, destacando la concentración desigual de
@@ -379,7 +389,7 @@
                                 <img src="img/T3.png" alt="Tendencia de las defunciones por COVID-19" class="small-img">
                                 <figcaption>Figura 3: Porcentaje % de muertes por COVID-19 entre hombres y mujeres.</figcaption>
                             </figure>
-                            <figure class="table-container"></figure>
+                            <figure class="table-container">
                                 <table class="centered-table">
                                     <tr>
                                         <th>Sexo del Paciente</th>
@@ -413,96 +423,98 @@
                                 <img src="img/T4.png" alt="Tendencia de las defunciones por COVID-19" class="centered-image">
                                 <figcaption>Figura 4: Distribución de muertes por COVID-19 según grupo etario y sexo.</figcaption>
                             </figure>
-                            <table>
-                                <caption>Cuadro 5: Distribución de Muertes por Grupo Etario y Sexo.</caption>
-                                <thead>
-                                    <tr>
-                                        <th>Grupo Etario</th>
-                                        <th>Sexo</th>
-                                        <th>Total Muertes</th>
-                                        <th>% Global</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="2">1. Niños y Adolescentes</td>
-                                        <td>Hombre</td>
-                                        <td>82</td>
-                                        <td>0.2%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mujer</td>
-                                        <td>62</td>
-                                        <td>0.2%</td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">2. Jóvenes</td>
-                                        <td>Hombre</td>
-                                        <td>198</td>
-                                        <td>0.6%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mujer</td>
-                                        <td>172</td>
-                                        <td>0.6%</td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">3. Adultos Jóvenes</td>
-                                        <td>Hombre</td>
-                                        <td>1.159</td>
-                                        <td>3%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mujer</td>
-                                        <td>617</td>
-                                        <td>3%</td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">4. Adultos de Mediana Edad</td>
-                                        <td>Hombre</td>
-                                        <td>4.410</td>
-                                        <td>11.8%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mujer</td>
-                                        <td>2.414</td>
-                                        <td>11.8%</td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">5. Tercera Edad</td>
-                                        <td>Hombre</td>
-                                        <td>15.425</td>
-                                        <td>44.5%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mujer</td>
-                                        <td>10.442</td>
-                                        <td>44.5%</td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">6. Cuarta Edad</td>
-                                        <td>Hombre</td>
-                                        <td>11.099</td>
-                                        <td>39.9%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mujer</td>
-                                        <td>12.082</td>
-                                        <td>39.9%</td>
-                                    </tr>
-                                    <tr class="row-total">
-                                        <td rowspan="2">Total</td>
-                                        <td>Hombre</td>
-                                        <td>32.373 (55.7%)</td>
-                                        <td>100%</td>
-                                    </tr>
-                                    <tr class="row-total">
-                                        <td>Mujer</td>
-                                        <td>25.789 (44.3%)</td>
-                                        <td>100%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-container">
+                                <table>
+                                    <caption>Cuadro 5: Distribución de Muertes por Grupo Etario y Sexo.</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Grupo Etario</th>
+                                            <th>Sexo</th>
+                                            <th>Total Muertes</th>
+                                            <th>% Global</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2">1. Niños y Adolescentes</td>
+                                            <td>Hombre</td>
+                                            <td>82</td>
+                                            <td>0.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>62</td>
+                                            <td>0.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">2. Jóvenes</td>
+                                            <td>Hombre</td>
+                                            <td>198</td>
+                                            <td>0.6%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>172</td>
+                                            <td>0.6%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">3. Adultos Jóvenes</td>
+                                            <td>Hombre</td>
+                                            <td>1.159</td>
+                                            <td>3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>617</td>
+                                            <td>3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">4. Adultos de Mediana Edad</td>
+                                            <td>Hombre</td>
+                                            <td>4.410</td>
+                                            <td>11.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>2.414</td>
+                                            <td>11.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">5. Tercera Edad</td>
+                                            <td>Hombre</td>
+                                            <td>15.425</td>
+                                            <td>44.5%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>10.442</td>
+                                            <td>44.5%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">6. Cuarta Edad</td>
+                                            <td>Hombre</td>
+                                            <td>11.099</td>
+                                            <td>39.9%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>12.082</td>
+                                            <td>39.9%</td>
+                                        </tr>
+                                        <tr class="row-total">
+                                            <td rowspan="2">Total</td>
+                                            <td>Hombre</td>
+                                            <td>32.373 (55.7%)</td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr class="row-total">
+                                            <td>Mujer</td>
+                                            <td>25.789 (44.3%)</td>
+                                            <td>100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <p>En la <b>Figura 4</b> y <b>Cuadro 5</b> se desprenden las siguientes observaciones:</p>
                             <p><b>Distribución por grupo etario</b></p>
                             <p>Se observa que los casos de muerte por Coronavirus aumenta significativamente en los grupos
@@ -520,7 +532,7 @@
                                 <img src="img/T5.png" alt="Muertespor COVID-19 según tipo de defunción" class="centered-image">
                                 <figcaption>Figura 5: Muertes por COVID-19 según tipo de defunción.</figcaption>
                             </figure>  
-                            <figure class="table-container"></figure>
+                            <figure class="table-container">
                                 <table class="centered-table">
                                     <tr>
                                         <th>Año</th>
@@ -601,7 +613,7 @@
                                 <img src="img/T6.png" alt="muertes por COVID-19 según lugar de defunción" class="centered-image">
                                 <figcaption>Figura 6: Muertes por COVID-19 según lugar de defunción.</figcaption>
                             </figure>
-                            <figure class="table-container"></figure>
+                            <figure class="table-container">
                                 <table class="centered-table">
                                     <tr>
                                         <th>Año</th>
@@ -679,7 +691,7 @@
                                 <img src="img/T7.png" alt="Promedio de muertes por COVID-19 por año y región" class="centered-image">
                                 <figcaption>Figura 7: Promedio de muertes por COVID-19 por año y región.</figcaption>
                             </figure>
-                            <figure class="table-container"></figure>
+                            <figure class="table-container">
                                 <table class="centered-table">
                                     <tr>
                                         <th>Región</th>
@@ -916,7 +928,7 @@
                                 <img src="img/T8.png" alt="Top 3 comunas con mayor núnmero de fallecidos por COVID-19 por año" class="centered-image">
                                 <figcaption>Figura 8: Top 3 comunas con mayor núnmero de fallecidos por COVID-19 por año.</figcaption>
                             </figure>
-                            <figure class="table-container"></figure>
+                            <figure class="table-container">
                                 <table class="centered-table">
                                     <tr>
                                         <th>Comuna</th>
@@ -1002,9 +1014,9 @@
                             <p><b>Importancia de factores locales:</b></p>
                             <p>Además de los factores nacionales como la vacunación, las características locales
                                 de cada comuna como la densidad poblacional, acceso a servicios de salud y las condiciones socioeconómicas jugaron un papel crucial en el impacto de la pandemia.</p>        
-             </div>
-             <div class="section">
-                <h1>4. Conclusiones y Recomendaciones</h1>
+         </div>
+        <div class="section">
+            <h1>4. Conclusiones y Recomendaciones</h1>
                     <p><b>a) Conclusiones</b></p>
                     <p>Los gráficos muestran claramente el impacto desigual que tuvo la pandemia de
                         COVID-19 en Chile, dependiendo de factores como edad, lugar de defunción, región, y comunas específicas. Se pueden identificar varias tendencias claves:</p>
@@ -1112,10 +1124,10 @@
                         salud, demográficos y manejos de crisis. Si bien Chile logró disminuir las muertes en años posteriores, se debe aprender de estas experiencias para estar mejor preparados
                         ante futuras emergencias sanitarias. Una estrategia balanceada entre prevención, inversión en salud y educación pública es esencial para proteger a los sectores más
                         vulnerables de la población.</p>
-            </div>
+         </div>
         <!-- Sección de Animaciones -->
         <section id="Material" class="section">
-            <h2>Materiales disponibles utilizados para el análisis anterior</h2>
+            <p><b>Materiales disponibles utilizados para el análisis anterior</b></p>
                 <p>A continuación se enlistará los archivos (script's en python y demás...) descargables los que se utilizaron para realizar el análisis anterior para que lo puedas replicar
                     en tu programa:
                 </p>
@@ -1142,44 +1154,16 @@
             
         <!-- Sección de Dashboards -->
         <section id="dashboards" class="section">
-            <h2>Dashboards</h2>
+            <h1>5. Dashboards</h1>
+            
             <p>En esta sección se presentarán tableros acerca de las defunciones por SARS-COV2, en donde Tableau Public se podrá interactuar más no con Power BI dado que la opción de compartir de este programa se limita sólo a organización no está disponible la opción gratuita como lo es Tableau Public.
                 Por tanto, puedes descargar el archivo disponible más abajo para que lo puedas abrir con tu programa Power BI descargado e interactuar con el dashboard. </p>
             <p> <b>Para los dashboard se conservaron el tamaño total original de la base de datos, es decir, los 58.215 registros de pacientes difuntos.</b></p>
             <h3>Dashboard 1: Defunciones por COVID-19 en Chile desde 2020 hasta 2024 en Tableau Public</h3>
-            <div class='tableau-container tableauPlaceholder' 
-                id='viz1736729701241' 
-                style='position: relative'><noscript>
-                    <a href='#'><img alt='Defunciones por Covid-19 en Chile desde 2020 hasta 2024 ' 
-                        src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Covid-19_17366569215180&#47;Covid19-P1&#47;1_rss.png' 
-                        style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' 
-                        value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' 
-                        value='' /><param name='name' value='Covid-19_17366569215180&#47;Covid19-P1' /><param name='tabs' value='no' /><param name='toolbar' 
-                        value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Covid-19_17366569215180&#47;Covid19-P1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='es-ES' /></object></div>                
+            <button class="btn-modal" id="btn-tableau">
+                <img src="img/a.jpg" alt="Tableau"> Ver Tableau
+            </button>
 
-            <script type='text/javascript'>var divElement = document.getElementById('viz1736729701241');
-                var vizElement = divElement.getElementsByTagName('object')[0];
-                    if ( divElement.offsetWidth > 800 ) { 
-                        vizElement.style.minWidth='420px';
-                        vizElement.style.maxWidth='1366px';
-                        vizElement.style.width='100%';
-                        vizElement.style.minHeight='587px';
-                        vizElement.style.maxHeight='795px';
-                        vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
-                    } else if ( divElement.offsetWidth > 500 ) {
-                         vizElement.style.minWidth='420px';
-                         vizElement.style.maxWidth='1366px';
-                         vizElement.style.width='100%';
-                         vizElement.style.minHeight='587px';
-                         vizElement.style.maxHeight='795px';
-                         vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
-                    } else { vizElement.style.width='100%';
-                    vizElement.style.height='2677px';
-                    }                     
-                var scriptElement = document.createElement('script');
-                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-                vizElement.parentNode.insertBefore(scriptElement, vizElement); 
-            </script>
             <h3>Dashboard 2: Reporte del número de defunciones en Chile producto del virus COVID-19 comprendido entre los años 2020 - 2024 en Power BI</h3>
 
                      <style>
@@ -1196,12 +1180,16 @@
         </section>
 
         <!-- Sección de Animaciones -->
-        <section id="animaciones" class="section">
-            <div class="container"></div>
-                <h2>Animaciones</h2>
-                    <h1>Gráfico de Muertes Acumulativas por COVID-19 en Chile</h1>
-                    <iframe src="animacion_muertes_covid_chile.html"></iframe>
-            </div>  
+        <section id="animaciones" class="section-with-transition" style="background-color: lightblue;">
+            <div class="container">
+                <h1>6. Animaciones</h1>
+                <h3>Gráfico de Muertes Acumulativas por COVID-19 en Chile</h3>
+                <!-- Botón para abrir el modal -->
+                <button class="btn-modal" id="btn-animacion">
+                    <img src="img/a.jpg" alt="Animación"> Ver Animación
+                </button>
+            </div>
+           
           <!--  <img src="tu_gif.gif" alt="Animación" class="responsive-img"> -->
             <p>En la animación adjunta podemos ver <b>"Gráfico de Muertes Acumulativas por COVID-19 en Chile"</b>, y se observa el incremento de las muertes de pacientes por COVID-19 a lo largo de los años y, destaca en primer
                 lugar la región Metropolitana (la capital del país) superando con creces a las demás regiones por todo el período. En segundo lugar, la Región de Valparaíso y luego 
@@ -1209,16 +1197,31 @@
                 los mayores casos, se concentran en las regiones correspondiente a la Zona Centro acumulando el 75.4% de las defunciones totales del país. Las regiones
                 correspondientes a las  zonas extremas (Norte y Sur) son las menos afectadas respecto a las de la Zona Central.
             </p>
-        </section>
 
+        </section>
        
         <!-- Sección de Contacto -->
         <section id="contacto" class="section">
-            <h2>Contacto</h2>
+            <h1>Contacto</h1>
             <p>Si tienes preguntas, contáctame al <a href="mailto:barcklan.inforadd@gmail.com">Correo de Barcklan</a></p>
         </section>
     </main>
-
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Título del Modal</h2>
+                <button class="close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Iframe dinámico -->
+                <iframe id="modal-iframe" src=""></iframe>
+            </div>
+            <div class="modal-footer">
+                <p id="modal-paragraph">Aquí puedes agregar un párrafo descriptivo relacionado con el contenido mostrado.</p>
+            </div>
+        </div>
+    </div>
     <footer class="site-footer">
         <div class="social-media-buttons">
             <a href="https://barcklan.wordpress.com/" target="_blank" class="social-button facebook">Barcklan-Inforadd</a>
