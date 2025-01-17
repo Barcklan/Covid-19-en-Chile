@@ -8,7 +8,7 @@
 
  // Botones
  const btnAnimacion = document.getElementById("btn-animacion");
- const btnTableau = document.getElementById("btn-tableau");
+ //const btnTableau = document.getElementById("btn-tableau");
 
  // Abrir modal para animación
  btnAnimacion.addEventListener("click", () => {
@@ -19,12 +19,12 @@
     document.body.classList.add("modal-open"); // Añadir clase para deshabilitar transiciones
 });
 // Abrir modal para Tableau
-btnTableau.addEventListener("click", () => {
-    iframe.src = "https://public.tableau.com/views/Covid-19_17366569215180/Covid19-P13"; // Ruta de Tableau
-    modalTitle.textContent = "Dashboard de Tableau: Muertes por COVID-19";
-    modalParagraph.textContent = "Este dashboard interactivo de Tableau presenta datos sobre las muertes por COVID-19 en Chile.";
-    modal.style.display = "flex";
-});
+//btnTableau.addEventListener("click", () => {
+  //  iframe.src = "https://public.tableau.com/app/profile/barcklan.inforadd/viz/Covid-19_17366569215180/Covid19-P13#1"; // Ruta de Tableau
+   // modalTitle.textContent = "Dashboard de Tableau: Muertes por COVID-19";
+    //modalParagraph.textContent = "Este dashboard interactivo de Tableau presenta datos sobre las muertes por COVID-19 en Chile.";
+    //modal.style.display = "flex";
+//});
 // Cerrar modal
 closeModal.addEventListener("click", () => {
     modal.style.display = "none";
