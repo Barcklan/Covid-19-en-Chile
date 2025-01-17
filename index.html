@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/a.jpg" type="image/x-icon">
     <title>COVID-19 en Chile (Análisis)</title>
-    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
@@ -1160,9 +1160,74 @@
                 Por tanto, puedes descargar el archivo disponible más abajo para que lo puedas abrir con tu programa Power BI descargado e interactuar con el dashboard. </p>
             <p> <b>Para los dashboard se conservaron el tamaño total original de la base de datos, es decir, los 58.215 registros de pacientes difuntos.</b></p>
             <h3>Dashboard 1: Defunciones por COVID-19 en Chile desde 2020 hasta 2024 en Tableau Public</h3>
-            <button class="btn-modal" id="btn-tableau">
+            <!-- Contenedor para Tableau -->
+            <div class="tableauPlaceholder" id="viz1736979523034" style="position: relative; width: 100%; height: auto;">
+                <noscript>
+                    <a href="#">
+                        <img 
+                            alt="Defunciones por Covid-19 en Chile desde 2020 hasta 2024" 
+                            src="https://public.tableau.com/static/images/Co/Covid-19_17366569215180/Covid19-P13/1_rss.png" 
+                            style="border: none;" 
+                        />
+                    </a>
+                </noscript>
+                <object class="tableauViz" style="display: none;">
+                    <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                    <param name="embed_code_version" value="3" />
+                    <param name="site_root" value="" />
+                    <param name="name" value="Covid-19_17366569215180/Covid19-P13" />
+                    <param name="tabs" value="no" />
+                    <param name="toolbar" value="yes" />
+                    <param name="static_image" value="https://public.tableau.com/static/images/Co/Covid-19_17366569215180/Covid19-P13/1.png" />
+                    <param name="animate_transition" value="yes" />
+                    <param name="display_static_image" value="yes" />
+                    <param name="display_spinner" value="yes" />
+                    <param name="display_overlay" value="yes" />
+                    <param name="display_count" value="yes" />
+                    <param name="language" value="es-ES" />
+                </object>
+            </div>
+
+            <!-- Script para ajustar Tableau -->
+            <script type="text/javascript">
+                window.onload = function () {
+                    var divElement = document.getElementById('viz1736979523034');
+                    var vizElement = divElement.getElementsByTagName('object')[0];
+                    var parentWidth = divElement.offsetWidth;
+
+                    // Ajustar estilos para diferentes tamaños de pantalla
+                    if (parentWidth > 800) {
+                        vizElement.style.minWidth = '420px';
+                        vizElement.style.maxWidth = '1366px';
+                        vizElement.style.width = '100%';
+                        vizElement.style.minHeight = '587px';
+                        vizElement.style.maxHeight = '795px';
+                        vizElement.style.height = (parentWidth * 0.75) + 'px';
+                    } else if (parentWidth > 500) {
+                        vizElement.style.minWidth = '420px';
+                        vizElement.style.maxWidth = '1366px';
+                        vizElement.style.width = '100%';
+                        vizElement.style.height = (parentWidth * 0.75) + 'px';
+                    } else {
+                        vizElement.style.width = '100%';
+                        vizElement.style.height = '400px'; // Reducir altura para dispositivos móviles
+                    }
+
+                    // Cargar script de Tableau
+                    var scriptElement = document.createElement('script');
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+                };
+
+                // Reajustar dimensiones al cambiar el tamaño de la ventana
+                window.onresize = function () {
+                    window.onload();
+                };
+            </script>
+
+           <!-- <button class="btn-modal" id="btn-tableau">
                 <img src="img/a.jpg" alt="Tableau"> Ver Tableau
-            </button>
+            </button> -->
 
             <h3>Dashboard 2: Reporte del número de defunciones en Chile producto del virus COVID-19 comprendido entre los años 2020 - 2024 en Power BI</h3>
 
