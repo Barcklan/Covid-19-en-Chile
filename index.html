@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/a.jpg" type="image/x-icon">
+    <title>COVID-19 en Chile (Análisis)</title>
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        /* Estilos para asegurar que el gráfico sea responsivo */
+        #plotly-div {
+            width: 100%;
+            height: auto;
+            max-width: 600px; /* Ajusta según sea necesario */
+            margin: 0 auto; /* Centrar el contenedor */
+        }
+    </style>
+</head>
+<body style="background-color: black;">
+    
+    <header>
+        <nav>
+            <h1>Barcklan</h1>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#dashboards">Dashboards</a></li>
+                <li><a href="#animaciones">Animaciones</a></li>
+                <li><a href="#tablas">Tablas Dinámicas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <aside id="toc-container">
+        <!--  <button id="toggle-toc">Ocultar</button> -->
+        <!-- La tabla de contenidos se generará aquí -->
+    </aside>
+    <main>
+        <!-- Sección de Inicio -->
+        <section id="inicio" class="section">
+            <h2>Análisis estadístico: Defunciones por Covid-19 en Chile</h2>
+            <p>Se presenta un análisis estadístico de las defunciones atribuibles a COVID-19 en Chile durante el período
+                2020-2024 a través del uso de técnicas de análisis exploratorio y comprender los patrones de mortalidad
+            del SARS-COV2.</p>
+            <div class="image-container">
+                <div class="column">
+                    <img src="img/fondo1.webp" alt="Imagen1" class="img-responsive">
+                </div>
+            </div>
+        </section>
+        <div class="section">
+            <h1>1. Introducción</h1>
+            <p>La pandemia de COVID-19 ha tenido un impacto significativo en la salud pública a nivel mundial,
+            y Chile no fue la excepción. Abordaremos el tema mediante el uso de herramientas de visualización de datos y la aplicación de 
+            técnicas de análisis exploratorios...
+            </p>
+        </div>
+        <div class="section">
+            <h1>2. Metodología</h1>
+        
+                <h3>2.1 Fuentes de datos</h3>
+                <p> El análisis se basa en un conjunto de datos en formatos .CSV que contiene información sobre las defunciones que están
+                relacionadas con el COVID-19 en Chile obtenida del sitio web "datos.gob", la cual es una página oficial del gobierno de
+                Chile la que puede hacerse con estos datos dándole click <a href="https://datos.gob.cl/dataset/8982a05a-91f7-422d-97bc-3eee08fde784/resource/8e5539b7-10b2-409b-ae5a-36dae4faf817"> aquí. </a>
+                Las variables claves (extraídas del conjunto de datos antes mencionadas) para llevar
+                a cabo este análisis son:
+                </p>
+                <ul style="margin: 0; padding-left: 20px; list-style-type: disc;"></ul>
+                    <li> <b>Año</b> y <b>Fecha de la defunción</b>.</li>
+                </ul>
+                <ul>
+                    <li><b>Sexo</b> y <b>Edad del fallecido</b>.</li>
+                </ul>
+                <ul>
+                    <li><b>Comuna</b> y <b>Región de residencia</b>.</li>
+                </ul>
+                <ul>
+                    <li><b>Lugar del fallecimiento</b>.</li>
+                </ul>
+                <ul>
+                    <li>Causa principal de muerte, especificada según los códigos diagnósticos: <b>U07.1</b>,
+                    <b>U07.2</b> y <b>U099</b> (detallaremos este punto más adelante en la Tabla 2).</li>
+                </ul>
+        
+            <h3>2.2 Transformación de los datos</h3>
+            <p>En el conjunto de datos original, no se disponía de una columna específica que
+                resumiera el número total de defunciones por COVID-19. Para abordar esto,
+                se calculó el total de muertes a partir de las observaciones individuales, agrupando
+                los registros por las variables relevantes (por ejemplo, año, región, o comuna) uti-
+                lizando Python. Este cálculo se realizó con la utilización de la librería Pandas, la
+                que permitió generar una nueva columna con la suma o total de defunciones para
+                su posterior análisis.<p>
+            <p>A la base de datos original, obtenida del sitio antes mencionada, se le aplicó trata-
+                mientos a los datos, en donde hubo limpiezas como el cambio de nombres en algunas
+                variables para estandarizar las categorías y evitar así palabras o nombres de estas
+                mismas que puedan si bien apuntar al mismo objetivo pero por error de escritura
+                se diferencien y que este se vea reflejado en el análisis lo que pueda provocar sesgos
+                en los resultados finales y, consigo, tomar decisiones erráticas.</p>
+            <h3>2.3 Transformación de Variables</h3>
+            <p>
+                Para mejorar la representación y análisis de algunas variables (por ejemplo, el núme-
+                ro total de defunciones), se aplicó una transformación logarítmica. Esta transforma-
+                ción ayuda a reducir la asimetría de los datos, mitigar el efecto de valores extremos
+                y facilitar la interpretación de los vínculos entre variables al convertir relaciones
+                multiplicativas en aditivas.        
+            </p>
+            <p>En este análisis los rangos de edad para clasificar los grupos etarios que repre-
+                sentan a los pacientes son los siguientes:</p>
+            <figure class="table-container"></figure>
+                <table class="centered-table">
+                    <tr>
+                        <th>Grupo Etario</th>
+                        <th>Rango Edad</th>
+                    </tr>
+                    <tr>
+                        <td>1. Niños y Adolescentes</td>
+                        <td>0 - 17 años</td>
+                    </tr>
+                    <tr>
+                        <td>2. Jóvenes</td>
+                        <td>18 - 29 años</td>
+                    </tr>
+                    <tr>
+                        <td>3. Adultos Jóvenes</td>
+                        <td>30 - 44 años</td>
+                    </tr>
+                    <tr>
+                        <td>4. Adultos de Mediana Edad</td>
+                        <td>45 - 59 años</td>
+                    </tr>
+                    <tr>
+                        <td>5. Tercera edad</td>
+                        <td>60 - 79 años</td>
+                    </tr>
+                    <tr>
+                        <td>6. Cuarta Edad</td>
+                        <td>80 + años</td>
+                    </tr>
+                </table>
+                <figcaption>Cuadro 1: Clasificación de pacientes por rango etario.</figcaption>
+            </figure>
+       
+            <p>
+            A continuación, daremos una breve explicación de las tres categorías principales
+            que se emplean según la clasificación internacional:   
+            </p>
+            <figure class="table-container"></figure>
+                <table class="centered-table">
+                    <tr>
+                        <th>Tipo de defunción</th>
+                        <th>Definición</th>
+                    </tr>
+                    <tr>
+                        <td>1. U07.1</td>
+                        <td>Defunciones confirmados por caso COVID-19.</td>
+                    </tr>
+                    <tr>
+                        <td>2. U07.2</td>
+                        <td>Defunciones sospechosas sin confirmación de laboratorio.</td>
+                    </tr>
+                    <tr>
+                        <td>3. U099</td>
+                        <td>Muertes por causas inespecíficas relacionadas.</td>
+                    </tr>
+                </table>
+                <figcaption>Cuadro 2: Clasificación por tipo de defunción por COVID-19.</figcaption>
+            </figure>
+            <h3>2.4 Selección de Datos</h3>
+            <p> Para este análisis, hemos considerado las muertes por COVID-19 en pacientes
+                con edades comprendidas entre 0 (meses para recién nacidos) y 103 años. La deci-
+                sión de excluir a los pacientes mayores de 103 años se fundamenta en dos razones
+                principales:
+            </p>  
+            <ul>
+                <li> <b>Razonabilidad en la distribución etaria:</b> Las muertes por COVID-19 en pacientes de más de 103 años
+                    son extremadamente raras y, en muchos casos, es probable que estas cifras estén influidas por errores en
+                    los registros de edad. Además, la mortalidad por SARS-COV2 se encuentra significativamente elevada en los 
+                    pacientes de tercera edad (60-80 años) y en la cuarta edad (81-103 años), lo que hace que el análisis centrado
+                    en estos rangos de edad sea más relevante para inferir la susceptabiidad de los grupos vulnerables.
+                </li>
+            </ul>
+            <ul>
+                <li><b>Enfoque práctico y relevante para la población de alto riesgo</b>: El foco principal del estudio es entender
+                la mayor vulnerabilidad de los pacientes de tercera y cuarta edad frente al virus. Aquellos mayores de 100 años son
+                generalmente más frágiles, pero su número es limitado, y su análisis no cambia sustancialmente las conclusiones que se 
+                pueden extraer del análisis de mortabilidad en los grupos etarios más representativos.</li>
+            </ul>
+
+            <p> El tamaño total de pacientes en estudio originalmente es de 58.215, sin embargo, aplicando el filtro (explicado
+                a principio de esta sección) se acota a 58.162 los que serán considerados para este análisis, lo que equivale al 99.9% del total.</p>
+            <h3>2.5 Herramientas</h3>
+                <p>El procesamiento y análisis de los datos se realizaron con Python, utilizando
+                    principalmente el entorno de desarrollo integrado (IDE) Spyder. Además, se em-
+                    plearon librerías como: </p>
+                <ul>
+                    <li> <b>Pandas y Numpy:</b> para el manejo y transformación de los datos.
+                    </li>
+                </ul>
+                <ul>
+                    <li><b>Matplotlib y Seaborn:</b> para visualización de datos.</li>
+                </ul>  
+            <h3>2.6 Técnicas usadas</h3>
+                <ul>
+                    <li> <b>Análisis Exploratorio de Datos (EDA) y Segmentación regional y por Edad:</b> Para identificar patrones, valores atípicos y características principales
+                        del conjunto de datos y para evaluar variaciones en la mortalidad según región,
+                        grupo etario y sexo. Los gráficos utilizados son:
+                    </li>
+                </ul>
+                <ul>
+                    <li><b>a) Gráfico de líneas continuas.</b></li>
+                </ul>
+                <ul>
+                    <li><b>b) Histogramas.</b></li>
+                </ul>
+                <ul>
+                    <li><b>c) Gráfico de barras (vertical y horizontal).</b></li>
+                </ul>
+                <ul>
+                    <li><b>d) Gráfico de barras agrupadas en categorías.</b></li>
+                </ul>
+        </div>
+        <div class="section">
+            <h1>3. Resultados</h1>
+                        <h3>3.1 Tendencia de las defunciones por COVID-19 en Chile desde el año 2020 hasta 2024</h3>
+                            <figure class="image-container">
+                                <img src="img/T1.png" alt="Tendencia de las defunciones por COVID-19" class="img-responsive">
+                                <figcaption>Figura 1: Tendencia de las defunciones por COVID-19 desde 2020 hasta 2024.</figcaption>
+                            </figure>
+                            <p> En la <b>Figura 1</b>, se observa los elevados números de muertes a inicios de la
+                            pandemia por SARS-COV2 a nivel nacional llegando a superar los 6.000 casos en el
+                            primer año. Luego, transcurre el tiempo (los años), vemos que va decayendo las 
+                            pronunciaciones o picos. Estos se puedan justificar por nuevas variantes que surgieron
+                            en esos años e hicieron que aumentaran nuevos casos. Pero en términos generales,
+                            vemos que la serie presenta una tendencia negativa, vale decir, que va decayendo
+                            con el tiempo, esto puede deberse a los medidas efectivas como el confinamiento,
+                            las vacunas y, sus números de dosis que se inocularon a la población de manera
+                            paulatina.
+                            </p>
+                            <figure class="image-container">
+                                <img src="img/T2.png" alt="Muertes acumuladas por COVID en cada región" class="img-responsive">
+                                <figcaption>Figura 2: Muertes acumuladas por COVID-19 a nivel de regiones.</figcaption>
+                            </figure>
+                            <figure class="table-container">
+                                <table class="centered-table">
+                                    <tr>
+                                        <th>Región</th>
+                                        <th>Número de muertes</th>
+                                        <th>% Acumulado</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Metropolitana de Santiago</td>
+                                        <td>27.964</td>
+                                        <td>48,1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Valparaíso</td>
+                                        <td>5.926</td>
+                                        <td>10,2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Del Biobío</td>
+                                        <td>4.319</td>
+                                        <td>7,4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Del Maule</td>
+                                        <td>2.997</td>
+                                        <td>5,1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Del Libertador B. O'Higgins</td>
+                                        <td>2.593</td>
+                                        <td>4,5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De La Araucanía</td>
+                                        <td>2.522</td>
+                                        <td>4,3%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Los Lagos</td>
+                                        <td>2.292</td>
+                                        <td>3,9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Coquimbo</td>
+                                        <td>1.869</td>
+                                        <td>3,2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Antofagasta</td>
+                                        <td>1.776</td>
+                                        <td>3,1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Los Ríos</td>
+                                        <td>1.267</td>
+                                        <td>2,2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Ñuble</td>
+                                        <td>1.224</td>
+                                        <td>2,1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Tarapacá</td>
+                                        <td>1.100</td>
+                                        <td>1,9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Arica y Parinacota</td>
+                                        <td>804</td>
+                                        <td>1,4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Atacama</td>
+                                        <td>655</td>
+                                        <td>1,1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Magallanes y de La Antártica Chilena</td>
+                                        <td>647</td>
+                                        <td>1,1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Aisén del Gral. C. Ibañez del Campo</td>
+                                        <td>207</td>
+                                        <td>0,4%</td>
+                                    </tr>
+                                </table>
+                                <figcaption>Cuadro 3: Muertes acumuladas por COVID-19 a nivel de regiones.</figcaption>
+                            </figure>
+        
+                            <p> En la <b>Figura 2</b> y el <b>Cuadro 3</b> muestran el porcentaje (%) acumulado de muertes
+                            por COVID-19 a nivel regional en Chile, destacando la concentración desigual de
+                            los fallecimientos a lo largo del país.</p>
+                            <p><b>Distribución por regiones:</b> </p>
+                            <ul>
+                                <li> <b>Región Metropolitana:</b> Lidera con un abrumador 48.1% de las
+                                muertes acumuladas, llegando casi a la mitad de las defunciones totales del país.
+                                Este alto porcentaje refleja a su elevada densidad poblacional, urbanización y movilidad, factores que facilitan una rápida propagación del virus.
+                                </li>
+                            </ul>
+                            <ul>
+                                <li><b>Regiones de Valparaíso y Biobío:</b>Ocupan el segundo (10.2 %) y el tercer
+                                lugar (7.4 %), respectivamente. Ambas regiones tienen una alta poblacíon urbana y
+                                también actúan como puntos de conexión con otras áreas del país. </li>
+                            </ul>
+                            <ul>
+                                <li><b>Regiones Intermedias (Maule, O’Higgins, Araucanía, etc.):</b>Con porcentajes entre 4 % y el 5 %, estas regiones muestran un impacto más moderado, esto
+                                osiblemente sea debido a poblaciones menos densas o medidas de contención más
+                                efectivas.</li>
+                            </ul>
+                            <ul>
+                                <li><b>Regiones extremas del norte y sur: con menor porcentaje %.</b></li>
+                            </ul>
+                            <ul>
+                                <li>a) <b>Magallanes</b> y <b>Aisén</b>con 1.1 % y 0.4 %, respectivamente, lo que puede explicarse a sus bajas densidades poblaciones y aislamiento geográfico.</li>
+                            </ul>
+                            <ul>
+                                <li>b) <b>Arica</b> y <b>Parinacota</b>, <b>Atacama</b> y <b>Tarapacá</b>: 
+                                Estos valores más bajos reflejan
+                                menos presión en los sistemas de salud y, una posible menor incidencia de casos
+                                graves debido a características demográficas específicas.</b></li>
+                            </ul>
+                            <p><b>Factores que podrían explicar la desigualdad:</b> </p>
+                            <p><b>Concentración en áreas urbanas:</b>Las regiones con las ciudades más grandes
+                            y mayor movilidad (como Santiago, Valparaíso y Concepción) concentran la mayoría de los fallecimientos.</p>
+                            <p>Esto se debe a factores como: </p>
+                            <ul>
+                                <li> <b>Alta densidad de población.</b></li>
+                            </ul>
+                            <ul>
+                                <li><b>Mayor contacto entre personas.</b></li>
+                            </ul>
+                            <ul>
+                                <li><b>Mayor presión en los sistemas hospitalarios.</b></li>
+                            </ul>
+                            <p><b>Regiones rurales o aisladas:</b> Menos afectadas gracias a su menor densidad
+                            poblacional, escasez de conectividad y características demográficas (posiblemente
+                            más jóvenes). </p>
+                            <p><b>Acceso desigual a la salud:</b> Las regiones más alejadas enfrentaron menos casos, pero también tuvieron más dificultades para acceder a una atención médica
+                            oportuna.</p>
+                        <h3>3.2 Impacto del COVID-19 en el género y grupo etario de los pacientes</h3>
+                            <p> <b>a) Impacto en el género</b></p>
+                            <figure class="image-container">
+                                <img src="img/T3.png" alt="Tendencia de las defunciones por COVID-19" class="img-responsive">
+                                <figcaption>Figura 3: Porcentaje % de muertes por COVID-19 entre hombres y mujeres.</figcaption>
+                            </figure>
+                            <figure class="table-container">
+                                <table class="centered-table">
+                                    <tr>
+                                        <th>Sexo del Paciente</th>
+                                        <th>N° fallecidos</th>
+                                        <th>% fallecidos</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1. Hombre</td>
+                                        <td>32.373</td>
+                                        <td>55,7%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2. Mujer</td>
+                                        <td>25.789</td>
+                                        <td>44,3%</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>58.162</td>
+                                        <td>100%</td>
+                                    </tr>  
+                                </table>
+                                <figcaption>Cuadro 4: Tabla con el n° de fallecidos por COVID-19 según sexo.</figcaption>
+                            </figure>
+                            <p>En la <b>Figura 3</b> y <b>Cuadro 4</b> vemos que, a nivel nacional, desde el año 2020
+                                hasta 2024 (hasta septiembre de este último) la proporción de pacientes muertos
+                                por COVID-19 en hombres (55.7 %) fue mayor que la de la mujer (44.3 %) con una
+                                diferencia del +11,4 %.</p> 
+                            <p>b) <b>Impacto en el grupo etario</b></p>
+                            <figure class="image-container">
+                                <img src="img/T4.png" alt="Tendencia de las defunciones por COVID-19" class="img-responsive">
+                                <figcaption>Figura 4: Distribución de muertes por COVID-19 según grupo etario y sexo.</figcaption>
+                            </figure>
+                            <div class="table-container">
+                                <table>
+                                    <caption>Cuadro 5: Distribución de Muertes por Grupo Etario y Sexo.</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Grupo Etario</th>
+                                            <th>Sexo</th>
+                                            <th>Total Muertes</th>
+                                            <th>% Global</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2">1. Niños y Adolescentes</td>
+                                            <td>Hombre</td>
+                                            <td>82</td>
+                                            <td>0.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>62</td>
+                                            <td>0.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">2. Jóvenes</td>
+                                            <td>Hombre</td>
+                                            <td>198</td>
+                                            <td>0.6%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>172</td>
+                                            <td>0.6%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">3. Adultos Jóvenes</td>
+                                            <td>Hombre</td>
+                                            <td>1.159</td>
+                                            <td>3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>617</td>
+                                            <td>3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">4. Adultos de Mediana Edad</td>
+                                            <td>Hombre</td>
+                                            <td>4.410</td>
+                                            <td>11.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>2.414</td>
+                                            <td>11.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">5. Tercera Edad</td>
+                                            <td>Hombre</td>
+                                            <td>15.425</td>
+                                            <td>44.5%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>10.442</td>
+                                            <td>44.5%</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">6. Cuarta Edad</td>
+                                            <td>Hombre</td>
+                                            <td>11.099</td>
+                                            <td>39.9%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mujer</td>
+                                            <td>12.082</td>
+                                            <td>39.9%</td>
+                                        </tr>
+                                        <tr class="row-total">
+                                            <td rowspan="2">Total</td>
+                                            <td>Hombre</td>
+                                            <td>32.373 (55.7%)</td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr class="row-total">
+                                            <td>Mujer</td>
+                                            <td>25.789 (44.3%)</td>
+                                            <td>100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>En la <b>Figura 4</b> y <b>Cuadro 5</b> se desprenden las siguientes observaciones:</p>
+                            <p><b>Distribución por grupo etario</b></p>
+                            <p>Se observa que los casos de muerte por Coronavirus aumenta significativamente en los grupos
+                            tercera y de cuarta edad reflejando a que estos grupos empieza a tener mayor vulnerabilidad.
+                            </p>
+                            <p><b>Diferencia por sexo</b></p>
+                            <p>Los hombres muestran un mayor número de muertes en comparación con las mujeres, 
+                            especialmente en los grupos de la tercera y cuarta edad.
+                            </p>
+                            <p>De acuerdo a los gráficos vistos en este apartado, se tiene que la edad es un factor muy 
+                            determinante en la mortalidad por COVID-19.
+                            </p>
+                        <h3>3.3 Tipo de muerte o defunción por COVID-19 en los pacientes</h3>   
+                            <figure class="image-container">
+                                <img src="img/T5.png" alt="Muertespor COVID-19 según tipo de defunción" class="img-responsive">
+                                <figcaption>Figura 5: Muertes por COVID-19 según tipo de defunción.</figcaption>
+                            </figure>  
+                            <figure class="table-container">
+                                <table class="centered-table">
+                                    <tr>
+                                        <th>Año</th>
+                                        <th>Tipo U07.1</th>
+                                        <th>Tipo U07.2</th>
+                                        <th>Tipo U099</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2020</td>
+                                        <td>16.176</td>
+                                        <td>2.484</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2021</td>
+                                        <td>21.628</td>
+                                        <td>1.229</td>
+                                        <td>75</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>2022</td>
+                                        <td>12.353</td>
+                                        <td>701</td>
+                                        <td>87</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>2023</td>
+                                        <td>2.451</td>
+                                        <td>119</td>
+                                        <td>42</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024</td>
+                                        <td>710</td>
+                                        <td>78</td>
+                                        <td>29</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>53.318</td>
+                                        <td>4.611</td>
+                                        <td>233</td>
+                                    </tr>
+                                </table>
+                                <figcaption>Cuadro 6: Distribución de muertes por tipo de defunción y año.</figcaption>
+                            </figure>   
+                            <p>La <b>figura 5</b> y el <b>Cuadro 6</b> muestran la distribución de muertes por COVID-19
+                                según el tipo de defunción <b>(U071, U072 y U099)</b> en Chile desde el año 2020 hasta
+                                2024, utilizando una escala logarítmica para reflejar mejor las diferencias entre categorías:</p>
+                            <ul>
+                                <li>En primer lugar, el <b>Tipo U07.1</b> (línea azul) es el más representativo en las causas
+                                    de muertes de los pacientes siendo el número más alto el año 2021 (21.628 casos) y a
+                                    partir de aquí estos van disminuyendo progresivamente hasta el año 2024, reflejando
+                                    ante esta reducción el impacto que ha traído las medidas de control, vacunación y
+                                    un posible impacto de menor envergadura de nuevas variantes.</li>
+                            </ul>
+                            <ul>
+                                <li>En segundo lugar, el <b>Tipo U07.2</b> (línea naranja) es la que según la tabla 2 están
+                                    asociados a los casos sospechosos o no confirmados por el SARS-COV2. Esta va en
+                                    descenso de manera constante desde el inicio de la pandemia hasta el 2022, luego un
+                                    decremento mayor desde este punto hasta 2023 para llegar a caer lentamente hasta
+                                    el año 2024, este comportamiento podría estar reflejado a mejoras en los diagnósticos o cambios en la clasificación de las defunciones.
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    Y en tercer lugar, el <b>Tipo U099</b> (línea verde) la menos frecuente asociadas a otras
+                                    causas no especificadas según tabla 2. Estos se mantienen relativamente bajas durante todo el período desde el año 2021 hasta el año 2024 con cifras que disminuyen
+                                    paulatinamente desde los 75 casos hasta llegar a las 23 ocurrencias.
+                                </li>
+                            </ul>
+                            <p>Cabe destacar que, la ausencia de casos en el año 2020 para el tipo de defunción U099 se deba a la falta de estandarización inicial en los registros. En este
+                                año, los países estaban adaptándose rápidamente a los nuevos códigos y estándares de clasificación. Es posible que en Chile el U099 no haya sido implementado
+                                inmediatamente o no fuera priorizado sino hasta el año 2021.
+                            </p>
+                        <h3>3.4 Muertes o defunción de pacientes por COVID-19 según el lugar de defunción</h3> 
+                            <figure class="image-container">
+                                <img src="img/T6.png" alt="muertes por COVID-19 según lugar de defunción" class="img-responsive">
+                                <figcaption>Figura 6: Muertes por COVID-19 según lugar de defunción.</figcaption>
+                            </figure>
+                            <figure class="table-container">
+                                <table class="centered-table">
+                                    <tr>
+                                        <th>Año</th>
+                                        <th>Casa habitación</th>
+                                        <th>Hospital/Clínica</th>
+                                        <th>Otro</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2020</td>
+                                        <td>2.563</td>
+                                        <td>15.635</td>
+                                        <td>462</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2021</td>
+                                        <td>3.134</td>
+                                        <td>19.479</td>
+                                        <td>319</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>2022</td>
+                                        <td>2.882</td>
+                                        <td>9.996</td>
+                                        <td>263</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>2023</td>
+                                        <td>512</td>
+                                        <td>2.064</td>
+                                        <td>36</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024</td>
+                                        <td>136</td>
+                                        <td>659</td>
+                                        <td>22</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>9.227</td>
+                                        <td>47.833</td>
+                                        <td>1.102</td>
+                                    </tr>
+                                </table>
+                                <figcaption>Cuadro 7: Distribución de muertes por lugar de defunción y año.</figcaption>
+                            </figure>   
+                            <p>La <b>Figura 6</b> y el <b>Cuadro 7</b> muestran la distribución de muertes por Coronavirus según el lugar de defunción (Casa habitación, Hospital o Clínica, Otro) en
+                                Chile entre 2020 y 2024, utilizando una escala logarítmica para resaltar diferencias
+                                proporcionales entre las categorías.</p>
+                            <p>En los lugares como <b>Hospitales o Clínica</b> (línea naranja) durante el año 2020
+                                (15.635 casos) es el lugar con la mayor cantidad de difuntos, reflejando en la prioridad de hospitalizar a los pacientes graves durante los primeros meses de la pandemia.
+                                En el 2021 tuvo la cifra más alta (19.479 casos) en todo el período, quizás se deba
+                                a la aparición de variantes más agresivos como la Delta; a saturaciones del sistema
+                                hospitalario y; al aumento de casos severos que requirieron atención hospitalaria.
+                                Desde el año 2022 tuvo una reducción progresiva llegando a las 659 ocurrencias en
+                                el año 2024 y es que posiblemente se deban a las mejoras en la vacunación y tratamientos efectivos; a la menor severidad de variantes posteriores (como la
+                                Omicron); y a la reducción del número de casos graves y muertes.</p>
+                            <p>En las <b>casas de habitaciones</b> (línea azul) en el año 2020 tuvo una cantidad moderada de difuntos a los que posiblemente estén relacionadas con: (a) pacientes que no
+                                pudieron acceder a atención hospitalaria; y/o (b) personas que eligieron no acudir a
+                                hospitales por temor al contagio directo. En el año 2021 y, por consiguiente, el 2022
+                                son los de mayor auge llegando a los 3.134 y 2.882 casos, respectivamente, lo que
+                                coincide con la saturación hospitalaria. A partir del año 2023 hasta la fecha (de este
+                                informe) ha ido en decrecimiento sostenido (512 ocurrencias en 2023 y 136 en 2024).
+                                Esta tendencia declinante refleja el fortalecimiento de la atención hospitalaria y a
+                                la mejora en el manejo domiciliario de casos leves o moderados.
+                            </p>
+                            <p>Y en <b>otros lugares de alojamiento</b> para pacientes por casos COVID-19 (línea
+                                verde), los casos fueron bajos (las ocurrencias más altas fueron en 2020 con 462)
+                                desde el inicio de la pandemia, a los que posiblemente se asocien a aquellos que fallecen en lugares no convencionales como espacios públicos, residencias de ancianos,
+                                etc. La reducción sostenida de este grupo puede reflejar a mejoras en la detección
+                                y a la derivación de casos hacia hospitales o manejo domiciliario efectivo.
+                            </p>
+                        <h3>3.5 Promedio de muertes o defunción de pacientes por COVID-19 en el transcurso del tiempo según la región</h3>
+                            <figure class="image-container">
+                                <img src="img/T7.png" alt="Promedio de muertes por COVID-19 por año y región" class="img-responsive">
+                                <figcaption>Figura 7: Promedio de muertes por COVID-19 por año y región.</figcaption>
+                            </figure>
+                            <figure class="table-container">
+                                <table class="centered-table">
+                                    <tr>
+                                        <th>Región</th>
+                                        <th>2020</th>
+                                        <th>2021</th>
+                                        <th>2022</th>
+                                        <th>2023</th>
+                                        <th>2024</th>
+                                        <th>P. Global</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Metropolitana</td>
+                                        <td>12.084</td>
+                                        <td>9.939</td>
+                                        <td>4.697</td>
+                                        <td>989</td>
+                                        <td>255</td>
+                                        <td>5.592,8</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Valparaíso</td>
+                                        <td>1.523</td>
+                                        <td>2.417</td>
+                                        <td>1.551</td>
+                                        <td>335</td>
+                                        <td>100</td>
+                                        <td>1.185,2</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>Del Bíobío</td>
+                                        <td>827</td>
+                                        <td>1.916</td>
+                                        <td>1.239</td>
+                                        <td>229</td>
+                                        <td>108</td>
+                                        <td>863,8</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>P. Global</td>
+                                        <td>1.116,25</td>
+                                        <td>1.433,25</td>
+                                        <td>821,312</td>
+                                        <td>163,25</td>
+                                        <td>51,0625</td>
+                                        <td>727,025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Del Maule</td>
+                                        <td>610</td>
+                                        <td>1.234</td>
+                                        <td>943</td>
+                                        <td>173</td>
+                                        <td>37</td>
+                                        <td>599,4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De O'Higgins</td>
+                                        <td>716</td>
+                                        <td>1.088</td>
+                                        <td>632</td>
+                                        <td>109</td>
+                                        <td>48</td>
+                                        <td>518,6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Araucanía</td>
+                                        <td>404</td>
+                                        <td>1.159</td>
+                                        <td>751</td>
+                                        <td>167</td>
+                                        <td>41</td>
+                                        <td>504,4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Los Lagos</td>
+                                        <td>296</td>
+                                        <td>1.175</td>
+                                        <td>666</td>
+                                        <td>123</td>
+                                        <td>32</td>
+                                        <td>458,4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Coquimbo</td>
+                                        <td>334</td>
+                                        <td>834</td>
+                                        <td>540</td>
+                                        <td>105</td>
+                                        <td>56</td>
+                                        <td>373,8</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Antofagasta</td>
+                                        <td>650</td>
+                                        <td>678</td>
+                                        <td>367</td>
+                                        <td>56</td>
+                                        <td>25</td>
+                                        <td>355,2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Los Ríos</td>
+                                        <td>111</td>
+                                        <td>607</td>
+                                        <td>440</td>
+                                        <td>82</td>
+                                        <td>27</td>
+                                        <td>253,4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Ñuble</td>
+                                        <td>217</td>
+                                        <td>446</td>
+                                        <td>430</td>
+                                        <td>87</td>
+                                        <td>44</td>
+                                        <td>244,8</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Tarapacá</td>
+                                        <td>306</td>
+                                        <td>536</td>
+                                        <td>216</td>
+                                        <td>34</td>
+                                        <td>8</td>
+                                        <td>220</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Arica y Parinacota</td>
+                                        <td>229</td>
+                                        <td>327</td>
+                                        <td>209</td>
+                                        <td>29</td>
+                                        <td>10</td>
+                                        <td>160,8</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Atacama</td>
+                                        <td>110</td>
+                                        <td>269</td>
+                                        <td>208</td>
+                                        <td>55</td>
+                                        <td>13</td>
+                                        <td>131</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Magallanes y Antártica Chilena</td>
+                                        <td>228</td>
+                                        <td>227</td>
+                                        <td>161</td>
+                                        <td>20</td>
+                                        <td>11</td>
+                                        <td>129,4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>De Aisén</td>
+                                        <td>15</td>
+                                        <td>80</td>
+                                        <td>91</td>
+                                        <td>19</td>
+                                        <td>2</td>
+                                        <td>41,4</td>
+                                    </tr>
+                                </table>
+                                <figcaption>Cuadro 8: Tabla con el promedio de muertes por COVID-19 por año y región.</figcaption>
+                            </figure>
+                            <p>En la <b>Figura 7</b> y <b>Cuadro 8</b> presentan el promedio de muertes por COVID-19
+                                por año y región de Chile en una escala logarítmica desde 2020 hasta 2024 en la 
+                                que, también, incluye una línea de promedio global (línea negra) que sirve como
+                                referencia para comparar las regiones. 
+                            </p>  
+                            <p>
+                                 <b>a) Tendencias Generales:</b>
+                            </p> 
+                           <p><b>Aumento en el año 2021:</b> Se observa un incremento significativo en el promedio
+                            de muertes para la mayoría de las regiones en 2021, que corresponde al peak de
+                            la pandemia en Chile, posiblemente impulsado por variantes más agresivas como
+                            Delta y a la saturación del sistema de salud.</p>
+                            <p><b>Reducción desde 2022:</b> A partir de este año, todas las regiones muestran un
+                                declive sostenido lo cual podría estar reflejando a:</p>
+                            <ul>
+                                <li>La efectividad de las campañas de vacunación.</li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    Mejoras en los tratamientos y manejo de casos graves.
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>Menor impacto de variantes posteriores, como Ómicron, que presentaron una menor tasa de letalidad.</li>
+                            </ul>
+                            <p><b>b) Una comparativa por región:</b></p>
+                            <p><b>Regiones con promedios de muertes más altos:</b></p>
+                            <p>Las regiones como la Metropolitana de Santiago, Valparaíso y Biobío tienen promedios más altos, de carácter
+                                cosnistente, que el promedio global, lo cual podría explicarse a:
+                            </p>
+                            <ul>
+                                <li>Su alta densidad a nivel poblacional.</li>
+                            </ul>
+                            <ul>
+                                <li>A la cantidad elevada de contagios a causa de la movilidad y la actividad económica.</li>
+                            </ul>
+                            <p>Esta demás mencionar que las regiones antes anunciadas lideran el nivel de impacto de fallecimientos a lo largo de todo el período.</p>
+                            <p>Regiones con promedios de muertes más bajos:</p>
+                            <ul>
+                                <li>En contraste a las regiones anteriores, Aisén y Magallanes (incluyendo a la
+                                    Antártica Chilena) muestran los valores más bajos durante todo el período. Esto puede estar asociado a su menor densidad poblacional, aislamiento geográfico y
+                                    menor presión sobre el sistema de salud.
+
+                                </li>
+                            </ul>
+                            <p><b>c) Comportamiento del promedio global</b></p>
+                            <ul>
+                                <li>Esta línea de color negro actúa como un indicador central en el comportamiento que presentan todas las regiones a lo largo del período, mostrando:
+
+                                </li>
+                            </ul>
+                            <p>- Un aumento <b>moderado en 2021</b> (el peor año de la pandemia en términos
+                                de mortalidad).</p>
+                            <p>- Una caída gradual a partir de 2022, siguiendo el mismo patrón que las regiones por individual.</p>
+                            <p>En general, la mayoría de las regiones se alinean con esta tendencia, aunque con
+                                diferentes magnitudes.</p>
+
+                            <p><b>La importancia del uso de la escala logarítmica para ver el comportamiento de las muertes por COVID-19 en cada región del país:</b></p>
+                            <ul>
+                                <li> El uso de esta escala, permite observar con mayor claridad las diferencias relativas
+                                    entre regiones con valores bajos como (Aisén) y valores altos (como la Metropolitana). Y además, con la ausencia de ésta, las diferencias entre regiones pequeñas y
+                                    grandes quedarían subrepresentadas.
+
+                                </li>
+                            </ul>
+                        <h3>3.6 Top 3 comunas con mayor núnero de fallecidos por COVID-19 por año (2020 - 2024)</h3>
+                            <figure class="image-container">
+                                <img src="img/T8.png" alt="Top 3 comunas con mayor núnmero de fallecidos por COVID-19 por año" class="img-responsive">
+                                <figcaption>Figura 8: Top 3 comunas con mayor núnmero de fallecidos por COVID-19 por año.</figcaption>
+                            </figure>
+                            <figure class="table-container">
+                                <table class="centered-table">
+                                    <tr>
+                                        <th>Comuna</th>
+                                        <th>2020</th>
+                                        <th>2021</th>
+                                        <th>2022</th>
+                                        <th>2023</th>
+                                        <th>2024</th>
+                                        <th>Total Fallecidos</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Puente Alto</td>
+                                        <td>931</td>
+                                        <td>771</td>
+                                        <td>329</td>
+                                        <td>90</td>
+                                        <td>---</td>
+                                        <td>2.121</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maipú</td>
+                                        <td>840</td>
+                                        <td>666</td>
+                                        <td>281</td>
+                                        <td>72</td>
+                                        <td>25</td>
+                                        <td>1.884</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>La Florida</td>
+                                        <td>639</td>
+                                        <td>539</td>
+                                        <td>300</td>
+                                        <td>---</td>
+                                        <td>23</td>
+                                        <td>1.501</td>
+                                    </tr>  
+                                    <tr>
+                                        <td>Valparaíso</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>61</td>
+                                        <td>---</td>
+                                        <td>61</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chillán</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>22</td>
+                                        <td>22</td>
+                                    </tr>
+                                   
+                                </table>
+                                <figcaption>Cuadro 9: Tabla con el top 3 comunas con mayor número de fallecidos por COVID-19 por año.</figcaption>
+                            </figure>
+                            <p>En la <b>Figura 8</b> y <b>Cuadro 9</b> se muestran a las comunas con mayor número de
+                                fallecidos por COVID-19 a nivel nacional de cada año.</p>
+                            <p><b>Disminución significativa de fallecidos a lo largo del tiempo:</b> </p>
+                            <ul>
+                                <li>En todas estas comunas seleccionadas, los fallecidos alcanzaron su punto más
+                                    alto entre 2020 y 2021, y disminuyendo de manera constante a partir del año 2022.
+                                    Esto refleja el impacto de las medidas sanitarias implementadas, incluyendo la vacunación masiva y la reducción de la letalidad de variantes posteriores del virus.
+
+                                </li>
+                            </ul>
+                            <p><b>Rotación en las comunas destacadas:</b></p>
+                            <ul>
+                                <li> En los primeros años, las comunas más grandes y densamente pobladas son las
+                                    que lideran (Puente Alto, Maipú y La Florida).
+
+                                </li>
+                            </ul>
+                            <ul>
+                                <li> Apartir del año 2023, comunas como Valparaíso y Chillán aparecen en el top,
+                                    esto probablemente sea debido a factores locales o demográficos.
+
+                                </li>
+                            </ul>
+                            <p><b>Importancia de factores locales:</b></p>
+                            <p>Además de los factores nacionales como la vacunación, las características locales
+                                de cada comuna como la densidad poblacional, acceso a servicios de salud y las condiciones socioeconómicas jugaron un papel crucial en el impacto de la pandemia.</p>        
+         </div>
+        <div class="section">
+            <h1>4. Conclusiones y Recomendaciones</h1>
+                    <p><b>a) Conclusiones</b></p>
+                    <p>Los gráficos muestran claramente el impacto desigual que tuvo la pandemia de
+                        COVID-19 en Chile, dependiendo de factores como edad, lugar de defunción, región, y comunas específicas. Se pueden identificar varias tendencias claves:</p>
+                    <p>
+                    <b>1. Concentración en grupos vulnerables:</b>
+                    </p>  
+                    <ul>
+                        <li> <b>La mayoría de las muertes ocurrieron en grupos de personas mayores de 60 años (tercera y cuarta edad)</b>, lo que resalta la vulnerabilidad de este
+                            grupo ante enfermedades graves.
+
+                        </li>
+                    </ul>
+                    <ul>
+                        <li><b>Las regiones y comunas más urbanas</b> (especialmente la Región Metropolitana y comunas como Puente Alto y Maipú) concentraron la mayor parte de las
+                            muertes debido su <b>densidad poblacional</b> y a la <b>alta movilidad</b>.
+
+                        </li>
+                    </ul>
+                    <p> <b>2. Impacto por lugar de defunción:</b></p>
+                    <ul>
+                        <li>La mayoría de las defunciones ocurrieron en hospitales o clínicas, lo que evidencia una mayor dependencia del sistema de salud durante la crisis.
+
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>Las muertes en casas habitación o en lugares no especificados fueron menos frecuentes, pero nos deja entrever a los posibles problemas de acceso o en la reticencia
+                            en buscar atención médica en etapas críticas de la pandemia.
+
+                        </li>
+                    </ul>
+                    <p> <b>3. Disminución de las muertes a lo largo del tiempo:</b></p>
+                    <ul>
+                        <li><b>A partir de 2022, se observa una marcada reducción en el número de
+                            fallecimientos, probablemente como resultado de la implementación de las vacunas, medidas de control sanitario y mayor conocimiento del manejo de la
+                            enfermedad.</b> </li>
+                    </ul>
+                    <p> <b>4. Concentración territorial:</b></p>
+                    <ul>
+                        <li>Casi la mitad de las muertes (48.1 %) ocurrieron en la Región Metropolitana,
+                            lo que refleja una correlación directa entre densidad poblacional y propagación
+                            del virus.
+
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>Las regiones más aisladas o con menor población (como <b>Aisén</b> y <b>Magallanes</b>
+                            (incluyendo la <b>Antártica Chilena</b>)) tuvieron un impacto significativamente menor.
+
+                        </li>
+                    </ul>
+                    <p><b>b) Recomendaciones:</b></p>
+                    <ul>
+                        <li><b>1. Fortalecer la atención en población vulnerable:</b> </li>
+                    </ul>
+                    <ul>
+                        <li>1.a) Implementar programas permanentes de vigilancia sanitaria y vacunación dirigidos especialmente a adultos mayores y personas con comorbilidades. </li>
+                    </ul>
+                    <ul>
+                        <li>1.b) Establecer redes de apoyo comunitario en comunas densamente pobladas para
+                            prevenir la saturación de los servicios de salud en futuras crisis. </li>
+                    </ul>
+                    <ul>
+                        <li><b>2. Distribución equitativa de recursos de salud:</b> </li>
+                    </ul>
+                    <ul>
+                        <li>2.a) Invertir en infraestructura sanitaria en regiones más rurales o aisladas para garan-
+                            tizar acceso rápido a atención médica. </li>
+                    </ul>
+                    <ul>
+                        <li>2.b) Fortalecer los sistemas de referencia y traslado para zonas alejadas, asegurando
+                            que todos los ciudadanos tengan igualdad de oportunidades para recibir tratamiento. </li>
+                    </ul>
+                    <ul>
+                        <li><b>3. Preparación para futuras pandemias:</b> </li>
+                    </ul>
+                    <ul>
+                        <li>3.a) Crear planes de contingencia que incluyan educación comunitaria, estrategias de
+                            comunicación masiva y protocolos rápidos de reacción para pandemias o brotes de
+                            enfermedades. </li>
+                    </ul>
+                    <ul>
+                        <li>3.b) Monitorear indicadores clave (densidad poblacional, movilidad) para identificar
+                            áreas críticas antes de que los brotes se descontrolen. </li>
+                    </ul>
+                    <ul>
+                        <li><b>4. Evaluación de comunas más afectadas:</b> </li>
+                    </ul>
+                    <ul>
+                        <li>4.a) Comunas como Puente Alto y Maipú deben ser priorizadas para futuros planes de
+                            mitigación debido a su alta incidencia de casos y defunciones. </li>
+                    </ul>
+                    <ul>
+                        <li>4.b) Implementar políticas locales que combinan prevención, acceso a salud y campañas de vacunación. </li>
+                    </ul>
+                    <ul>
+                        <li><b>5. Continuar fomentando la vacunación:</b> </li>
+                    </ul>
+                    <ul>
+                        <li>5.a) Las vacunas jugaron un papel crítico en la reducción de muertes, por lo que se
+                            debe garantizar que toda la población esté al día con sus esquemas de vacunación,
+                            no sólo contra COVID-19 , sino también contra otras enfermedades. </li>
+                    </ul>
+                    <p><b>Como reflexión:</b></p>
+                    <p>La pandemia dejó en evidencia las desigualdades estructurales de los sistemas de
+                        salud, demográficos y manejos de crisis. Si bien Chile logró disminuir las muertes en años posteriores, se debe aprender de estas experiencias para estar mejor preparados
+                        ante futuras emergencias sanitarias. Una estrategia balanceada entre prevención, inversión en salud y educación pública es esencial para proteger a los sectores más
+                        vulnerables de la población.</p>
+         </div>
+
+        <section id="Material" class="section">
+            <p><b>Materiales disponibles utilizados para el análisis anterior</b></p>
+                <p>A continuación se enlistará los archivos (script's en python y demás...) descargables los que se utilizaron para realizar el análisis anterior para que lo puedas replicar
+                    en tu programa:
+                </p>
+                <ul>
+                    <li><a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/defunciones_covid19_2020_2024.xlsx"> "Datos tratados en excel (.xlsx)"</a> </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/Script%20con%20las%20tablas%20del%20COVID-19%20en%20Chile.py"> "Script con las tablas del COVID-19 en Chile (python)"</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/Script%20con%20los%20graficos%20del%20COVID-19%20en%20Chile.py"> "Script con los gráficos del COVID-19 en Chile (python)"</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/GRAFICO%20DE%20ANÁLISIS%20(COVID-19).zip"> "Gráficos de los análisis (comprimidos en archivo .zip)"</a>
+                    </li>
+                </ul>
+                <p>También puedes descargar el documento PDF del análisis completo de la defunción del COVID-19 en Chile haciendo click <a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/INFORME%20-%20ANÁLISIS%20DE%20DEFUNCIONES%20DEL%20COVID-19%20EN%20CHILE.pdf"> "aquí"</a>. </p>
+        </section>
+            
+        <!-- Sección de Dashboards -->
+        <section id="dashboards" class="section">
+            <h1>5. Dashboards</h1>
+            
+            <p>En esta sección se presentarán tableros acerca de las defunciones por SARS-COV2, en donde Tableau Public se podrá interactuar más no con Power BI dado que la opción de compartir de este programa se limita sólo a organización no está disponible la opción gratuita como lo es Tableau Public.
+                Por tanto, puedes descargar el archivo disponible más abajo para que lo puedas abrir con tu programa Power BI descargado e interactuar con el dashboard. </p>
+            <p> <b>Para los dashboard se conservaron el tamaño total original de la base de datos, es decir, los 58.215 registros de pacientes difuntos.</b></p>
+            <h3>Dashboard 1: Reporte del número de defunciones en Chile producto del virus COVID-19 comprendido entre los años 2020 - 2024 en Power BI</h3>
+
+                     <style>
+                        .imagen {
+                            display: block;
+                            margin: 0 auto;
+                            max-width: 100%;
+                            height: auto;
+                        }
+                    </style>
+                    
+                    <img src="img/Powerbi.png" alt="Imagen centrada" class="img-responsive" />
+                <p>La imagen adjunta es sólo una muestra del tablero realizado con el programa Power BI. Si deseas interactuar con el dashboard, puedes descargar el archivo <a href="https://raw.githubusercontent.com/Barcklan/COVID-19-en-Chile/main/Defunciones%20COVID-19.pbix"> "Defunciones COVID-19.pbix" </a>  y abrirlo desde el programa Power BI. </p>
+            <h3>Dashboard 2: Defunciones por COVID-19 en Chile desde 2020 hasta 2024 en Tableau Public</h3>
+                <!-- Contenedor para Tableau -->
+            <div class="tableauPlaceholder" id="viz1736979523034" style="position: relative; width: 80%; height: auto; margin-bottom: 10px;">
+                <noscript>
+                    <a href="#">
+                        <img 
+                            alt="Defunciones por Covid-19 en Chile desde 2020 hasta 2024" 
+                            src="https://public.tableau.com/static/images/Co/Covid-19_17366569215180/Covid19-P13/1_rss.png" 
+                            style="border: 20px;" 
+                        />
+                    </a>
+                </noscript>
+                <object class="tableauViz" style="display: none;">
+                    <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                    <param name="embed_code_version" value="3" />
+                    <param name="site_root" value="" />
+                    <param name="name" value="Covid-19_17366569215180/Covid19-P13" />
+                    <param name="tabs" value="no" />
+                    <param name="toolbar" value="yes" />
+                    <param name="static_image" value="https://public.tableau.com/static/images/Co/Covid-19_17366569215180/Covid19-P13/1.png" />
+                    <param name="animate_transition" value="yes" />
+                    <param name="display_static_image" value="yes" />
+                    <param name="display_spinner" value="yes" />
+                    <param name="display_overlay" value="yes" />
+                    <param name="display_count" value="yes" />
+                    <param name="language" value="es-ES" />
+                </object>
+            </div>
+            <!-- Script para ajustar Tableau -->
+            <script type="text/javascript">
+                window.onload = function () {
+                    var divElement = document.getElementById('viz1736979523034');
+                    var vizElement = divElement.getElementsByTagName('object')[0];
+                    var parentWidth = divElement.offsetWidth;
+
+                    // Ajustar estilos para diferentes tamaños de pantalla
+                    if (parentWidth > 800) {
+                        vizElement.style.minWidth = '420px';
+                        vizElement.style.maxWidth = '1366px';
+                        vizElement.style.width = '100%';
+                        vizElement.style.minHeight = '587px';
+                        vizElement.style.maxHeight = '795px';
+                        vizElement.style.height = (parentWidth * 0.75) + 'px';
+                    } else if (parentWidth > 500) {
+                        vizElement.style.minWidth = '420px';
+                        vizElement.style.maxWidth = '1366px';
+                        vizElement.style.width = '100%';
+                        vizElement.style.height = (parentWidth * 0.75) + 'px';
+                    } else {
+                        vizElement.style.width = '100%';
+                        vizElement.style.height = '400px'; // Reducir altura para dispositivos móviles
+                    }
+
+                    // Cargar script de Tableau
+                    var scriptElement = document.createElement('script');
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+                };
+
+                // Reajustar dimensiones al cambiar el tamaño de la ventana
+                window.onresize = function () {
+                    window.onload();
+                };
+            </script>
+        </section>
+
+        <!-- Sección de Animaciones -->       
+        <section id="animaciones" class="section">
+            <h1>6. Animaciones</h1>
+                <h3>Gráfico de Muertes Acumulativas por COVID-19 en Chile</h3>
+                <p> En la presente sección se muestra mediante un gráfico de barras la animación relacionada con las muertes
+                    acumuladas por Covid-19 en cada región del país. Puedes ver el gráfico en cuestión haciendo click en el botón "Ver Animación" que se muestra acontinuación:
+                </p>
+                 <!-- Botón para abrir el modal -->
+                 <button class="btn-modal" id="btn-animacion">
+                    <img src="img/icon1.jpg" alt="Animación"> Ver Animación
+                </button>
+                
+        </section>
+
+
+        <!-- Sección de Contacto -->
+        <section id="contacto" class="section">
+            <h1>Contacto</h1>
+            <p>Si tienes preguntas, contáctame al <a href="mailto:barcklan.inforadd@gmail.com">Correo de Barcklan</a></p>
+        </section>
+    </main>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Título del Modal</h2>
+                <button class="close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Iframe dinámico -->
+                <iframe id="modal-iframe" src=""></iframe>
+            </div>
+            <div class="modal-footer">
+                <p id="modal-paragraph">Aquí puedes agregar un párrafo descriptivo relacionado con el contenido mostrado.</p>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="social-media-buttons">
+            <a href="https://barcklan.wordpress.com/" target="_blank" class="social-button facebook">Barcklan-Inforadd</a>
+            <a href="https://barcklan.github.io/Barcklan/" target="_blank" class="social-button twitter">Portafolio</a>
+            <a href="https://instagram.com/barcklan/" target="_blank" class="social-button instagram">Instagram</a>
+            <a href="https://linkedin.com/in/claudio-andres-diaz-vargas" target="_blank" class="social-button linkedin">LinkedIn</a>
+        </div>
+        <button class="back-to-top" onclick="scrollToTop()">Ir al inicio</button>
+        <p>&copy; 2025 Barcklan. Todos los derechos reservados.</p>
+        <p xmlns:cc="http://creativecommons.org/ns#">
+            This work is licensed under 
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" 
+               target="_blank" rel="license noopener noreferrer" style="text-decoration: none; color: inherit;">
+              CC BY-NC-SA 4.0
+            </a>
+          </p>
+          <div class="cc-icons">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC Icon">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY Icon">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="NC Icon">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA Icon">
+          </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
